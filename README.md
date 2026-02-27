@@ -51,7 +51,7 @@ pysocks
 Install dependencies:
 
 ```bash
-pip install cryptography flask
+pip install -r requirements.txt
 ```
 
 ---
