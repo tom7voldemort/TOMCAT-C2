@@ -39,6 +39,11 @@ TOMCAT C2 is a multi-protocol Command & Control framework supporting three types
 
 ---
 
+## Installation
+```bash
+git clone https://github.com/tom7voldemort/TOMCAT-C2.git
+```
+
 ## Requirements
 
 ```
