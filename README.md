@@ -1,4 +1,4 @@
-# TOMCAT C2 Framework V2
+# TOMCAT C2 Framework
 
 <div align="center">
 
