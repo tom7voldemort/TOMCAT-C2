@@ -165,10 +165,10 @@ class TOMCATC2GUI:
             if Success:
                 self.ServerStartTime = time()
                 StrObject.Animation(
-                    f"{TMColor.green}[{TMColor.cyan}DEBUG{TMColor.green}] {TMColor.green}] Server Started At Timestamp: {self.ServerStartTime}"
+                    f"{TMColor.green}[{TMColor.cyan}DEBUG{TMColor.green}] {TMColor.green}] Server Started At Timestamp: {self.ServerStartTime}", delay=0.001
                 )
                 StrObject.Animation(
-                    f"{TMColor.green}[{TMColor.cyan}DEBUG{TMColor.green}] {TMColor.green}] Current Time: {time()}"
+                    f"{TMColor.green}[{TMColor.cyan}DEBUG{TMColor.green}] {TMColor.green}] Current Time: {time()}", delay=0.001
                 )
                 self.AddLog(f"[+] {Message}")
                 if UseMeterpreterMode:
