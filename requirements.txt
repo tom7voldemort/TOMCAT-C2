@@ -1,0 +1,4 @@
+pysocks
+cryptography
+requests
+flask

@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="shortcut icon" href="https://h.top4top.io/p_3535564bl0.gif" type="image/x-icon" />
+    <title>TOMCAT C2 Framework</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+
+<body>
+    <div class="mobile-overlay" id="mobileOverlay" onclick="toggleMobileMenu()"></div>
+
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-terminal"></i>
+                    </div>
+                    <div class="logo-text">
+                        <div class="logo-title">
+                            TOMCAT C2 Frameworks
+                        </div>
+                        <div class="logo-subtitle">
+                            Version 2.0
+                        </div>
+                        <div class="logo-subtitle">
+                            Peace Is Not An Option
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">
+                        Main
+                    </div>
+                    <div class="nav-item active" onclick="showSection('dashboard')">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Dashboard</span>
+                    </div>
+                    <div class="nav-item" onclick="showSection('agents')">
+                        <i class="fas fa-users"></i>
+                        <span>Agents</span>
+                        <span class="nav-badge" id="navAgentCount">0</span>
+                    </div>
+                    <div class="nav-item" onclick="showSection('command')">
+                        <i class="fas fa-terminal"></i>
+                        <span>Console</span>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">
+                        System
+                    </div>
+                    <div class="nav-item" onclick="showSection('server')">
+                        <i class="fa-solid fa-gear"></i>
+                        <span>Server Configuration</span>
+                    </div>
+                    <div class="nav-item" onclick="showSection('logs')">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Activity Logs</span>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">
+                        Info
+                    </div>
+                    <div class="nav-item" onclick="showSection('about')">
+                        <i class="fas fa-user-circle"></i>
+                        <span>About</span>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="sidebar-footer-text">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>2026 CYBERTOM7 OPS</span>
+                </div>
+            </div>
+        </aside>
+
+        <div class="main-content">
+            <div class="topbar">
+                <div class="topbar-left">
+                    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 class="page-title" id="pageTitle">Dashboard</h1>
+                </div>
+                <div class="topbar-right">
+                    <button class="topbar-btn" id="topbarServerBtn" onclick="toggleServer()">
+                        <i class="fas fa-play"></i>
+                        <span>Start Server</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="content-area">
+                <div id="dashboard" class="section active">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-icon">
+                                    <i class="fas fa-server"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <div class="stat-label">
+                                        Server Status
+                                    </div>
+                                    <div class="stat-value" id="dashServerStatus">
+                                        Offline
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <div class="stat-label">
+                                        Active Agents
+                                    </div>
+                                    <div class="stat-value" id="dashAgentCount">
+                                        0
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-icon">
+                                    <i class="fas fa-network-wired"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <div class="stat-label">
+                                        Connections
+                                    </div>
+                                    <div class="stat-value" id="dashConnections">
+                                        0
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <div class="stat-label">
+                                        Uptime
+                                    </div>
+                                    <div class="stat-value" id="dashUptime">
+                                        00:00:00
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-info-circle"></i>
+                                System Information
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <div class="info-item-label">
+                                        Author
+                                    </div>
+                                    <div class="info-item-value">
+                                        TOM7
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-item-label">
+                                        GitHub
+                                    </div>
+                                    <div class="info-item-value">
+                                        tom7voldemort
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-item-label">
+                                        Version
+                                    </div>
+                                    <div class="info-item-value">
+                                        2.0
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-item-label">
+                                        Framework
+                                    </div>
+                                    <div class="info-item-value">
+                                        C2 Framework
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="server" class="section">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-cog"></i>
+                                Server Configuration
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="form-label">Host Address</label>
+                                <input type="text" id="host" value="0.0.0.0" class="form-input" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Port Number</label>
+                                <input type="number" id="port" value="4444" class="form-input" />
+                            </div>
+                            <button class="btn" id="startServerBtn" onclick="toggleServer()">
+                                <i class="fas fa-play"></i>
+                                Start Server
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-heartbeat"></i>
+                                Server Status
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="server-status-3d">
+                                <div class="sphere-container">
+                                    <div class="sphere" id="statusSphere">
+                                        <div class="sphere-inner"></div>
+                                        <div class="sphere-glow"></div>
+                                    </div>
+                                    <svg class="neural-lines" width="300" height="300" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; z-index: 1;">
+                                        <circle class="neural-circle neural-1" cx="150" cy="150" r="80" fill="none" stroke="rgba(0, 255, 136, 0.3)" stroke-width="2" />
+                                        <circle class="neural-circle neural-2" cx="150" cy="150" r="95" fill="none" stroke="rgba(0, 255, 136, 0.2)" stroke-width="2" />
+                                        <circle class="neural-circle neural-3" cx="150" cy="150" r="110" fill="none" stroke="rgba(0, 255, 136, 0.15)" stroke-width="2" />
+                                        <circle class="neural-circle neural-4" cx="150" cy="150" r="125" fill="none" stroke="rgba(0, 255, 136, 0.2)" stroke-width="2" />
+                                        <circle class="neural-circle neural-5" cx="150" cy="150" r="140" fill="none" stroke="rgba(0, 255, 136, 0.15)" stroke-width="2" />
+                                    </svg>
+                                </div>
+                                <div class="status-info">
+                                    <div class="status-label">
+                                        Current Status
+                                    </div>
+                                    <div class="status-value" id="sphereStatusText">
+                                        Offline
+                                    </div>
+                                    <div class="status-details" id="sphereStatusDetail">
+                                        Server Not Running
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <div class="info-item-label">
+                                        Listening On
+                                    </div>
+                                    <div class="info-item-value" id="serverAddress">
+                                        XXX.XXX.XXX.XXX
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-item-label">
+                                        Session Key
+                                    </div>
+                                    <div class="info-item-value" id="sessionKey">
+                                        XXXXXXXXXXXX
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="agents" class="section">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-project-diagram"></i>
+                                Network Connection
+                            </div>
+                            <span class="nav-badge" id="agentCount">0</span>
+                        </div>
+                        <div class="card-body">
+                            <div id="networkTopology" class="network-topology">
+                                <svg id="topologySvg" width="100%" height="400"></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-broadcast-tower"></i>
+                                Connected Agents
+                            </div>
+                            <span class="nav-badge" id="agentCount2">0</span>
+                        </div>
+                        <div class="card-body">
+                            <div id="agentsContainer" class="agents-grid"></div>
+                            <div id="noAgents" class="empty-state">
+                                <i class="fas fa-satellite-dish"></i>
+                                <div class="empty-state-title">
+                                    No Active Agents
+                                </div>
+                                <div class="empty-state-text">
+                                    Waiting For Agents To Connect
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="command" class="section">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-crosshairs"></i>
+                                Target Agent
+                            </div>
+                            <span class="nav-badge" id="selectedAgent" style="background: var(--danger)">None</span>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-bolt"></i>
+                                Quick Commands
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="quick-actions">
+                                <button class="quick-btn" onclick="quickCommand('SYSINFO')">
+                                    <i class="fas fa-info"></i>
+                                    System Info
+                                </button>
+                                <button class="quick-btn" onclick="quickCommand('ls -la')">
+                                    <i class="fas fa-folder-open"></i>
+                                    List Files
+                                </button>
+                                <button class="quick-btn" onclick="quickCommand('ifconfig')">
+                                    <i class="fas fa-network-wired"></i>
+                                    Network
+                                </button>
+                                <button class="quick-btn" onclick="quickCommand('whoami')">
+                                    <i class="fas fa-user-circle"></i>
+                                    User Info
+                                </button>
+                                <button class="quick-btn" onclick="quickCommand('ps aux')">
+                                    <i class="fas fa-tasks"></i>
+                                    Processes
+                                </button>
+                                <button class="quick-btn" onclick="quickCommand('SCREENSHOT')">
+                                    <i class="fas fa-camera"></i>
+                                    Screenshot
+                                </button>
+                                <button class="quick-btn" onclick="quickCommand('ELEVATE')">
+                                    <i class="fas fa-arrow-up"></i>
+                                    Elevate Check
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-toolbox"></i>
+                                Advanced Commands
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="form-label">Source Path (Remote File)</label>
+                                <input type="text" id="advSourcePath" placeholder="/path/to/file or C:\path\to\file" class="form-input" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Destination Path (For Upload)</label>
+                                <input type="text" id="advDestPath" placeholder="/remote/destination/path or C:\remote\destination" class="form-input" />
+                            </div>
+                            <div class="advanced-actions">
+                                <button class="adv-btn" onclick="downloadFile()">
+                                    <i class="fas fa-download"></i>
+                                    Download
+                                </button>
+                                <button class="adv-btn" onclick="uploadFile()">
+                                    <i class="fas fa-upload"></i>
+                                    Upload
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-terminal"></i>
+                                Console Output
+                            </div>
+                            <div class="header-actions">
+                                <button class="btn-action btn-action-success" onclick="copyCommandOutput(event)">
+                                    <i class="fas fa-copy"></i>
+                                    <span>Copy</span>
+                                </button>
+                                <button class="btn-action btn-action-danger" onclick="clearCommandOutput()">
+                                    <i class="fas fa-eraser"></i>
+                                    <span>Clear</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="cmdOutput" class="terminal"></div>
+                            <div class="command-bar">
+                                <input type="text" id="cmdInput" placeholder="Enter command..." onkeypress="handleCommandEnter(event)" class="form-input" />
+                                <button class="btn" onclick="executeCommand()">
+                                    <i class="fas fa-play-circle"></i>
+                                    Execute
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="logs" class="section">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-file-alt"></i>
+                                Activity Logs
+                            </div>
+                            <div class="header-actions">
+                                <button class="btn-action btn-action-success" onclick="copyLogs(event)">
+                                    <i class="fas fa-copy"></i>
+                                    <span>Copy</span>
+                                </button>
+                                <button class="btn-action btn-action-danger" onclick="clearLogs()">
+                                    <i class="fas fa-trash-alt"></i>
+                                    <span>Clear</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="logOutput" class="terminal" style="max-height: 500px"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="about" class="section">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-user-circle"></i>
+                                About Developer
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="about-content">
+                                <div class="about-avatar">
+                                    <i class="fas fa-user-secret"></i>
+                                </div>
+                                <div class="about-info">
+                                    <div class="about-item">
+                                        <i class="fas fa-user"></i>
+                                        <div class="about-label">
+                                            Author
+                                        </div>
+                                        <div class="about-value">
+                                            TOM7
+                                        </div>
+                                    </div>
+                                    <div class="about-item">
+                                        <i class="fa-brands fa-instagram"></i>
+                                        <div class="about-label">
+                                            Instagram
+                                        </div>
+                                        <div class="about-value">
+                                            <a href="https://instagram.com/tom7_xp">tom7_xp</a>
+                                        </div>
+                                    </div>
+                                    <div class="about-item">
+                                        <i class="fab fa-github"></i>
+                                        <div class="about-label">
+                                            GitHub
+                                        </div>
+                                        <div class="about-value">
+                                            <a href="https://github.com/tom7voldemort" target="_blank">tom7voldemort</a>
+                                        </div>
+                                    </div>
+                                    <div class="about-item">
+                                        <i class="fas fa-envelope"></i>
+                                        <div class="about-label">
+                                            E-Mail
+                                        </div>
+                                        <div class="about-value">
+                                            <a href="mailto:anonymous999tom7@gmail.com">anonymous999tom7@gmail.com</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-code"></i>
+                                Tools Information
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <div class="info-item-label">
+                                        Name
+                                    </div>
+                                    <div class="info-item-value">
+                                        TOMCAT C2 Framework
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-item-label">
+                                        Version
+                                    </div>
+                                    <div class="info-item-value">
+                                        2.0
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-item-label">
+                                        Type
+                                    </div>
+                                    <div class="info-item-value">
+                                        Command And Control
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-item-label">
+                                        Powered By
+                                    </div>
+                                    <div class="info-item-value">
+                                        Python
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                Disclaimer
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="disclaimer-text">
+                                This tool is created for educational and authorized testing purposes only. The developer
+                                is not responsible for any misuse or illegal activities conducted with this framework.
+                                Always obtain proper authorization before testing on any systems you do not own.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="../static/js/script.js"></script>
+</body>
+
+</html>
