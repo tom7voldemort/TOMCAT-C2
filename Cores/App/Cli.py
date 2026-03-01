@@ -352,6 +352,9 @@ class TOMCATC2CLI:
         print()
         if hasattr(self.Server, "GetSessionStats"):
             Stats = self.Server.GetSessionStats()
+            print(self.RenderField("Server Key", str(Stats["ServerKey"])))
+            print(self.RenderField("Server Address", str(Stats["ServerAddress"])))
+            print(self.RenderField("Server Port", str(Stats["ServerPort"])))
             print(self.RenderField("Total Sessions", str(Stats["Total"])))
             print(self.RenderField("TOMCAT Agents", str(Stats["TOMCAT"]), TMColor.red))
             print(
@@ -368,6 +371,10 @@ class TOMCATC2CLI:
             Sessions = self.FetchSessions()
             Total = len(Sessions) if Sessions else 0
             print(self.RenderField("Total Sessions", str(Total)))
+            if hasattr(self.Server, "GetSessionStat"):
+                Stats = self.Server.GetSessionStat()
+            print(self.RenderField("Server Address", str(Stats["ServerAddress"])))
+            print(self.RenderField("Server Port", str(Stats["ServerPort"])))
         print()
 
     def ShowLogs(self):

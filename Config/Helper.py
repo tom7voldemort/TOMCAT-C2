@@ -2,11 +2,16 @@
 
 Helper = """
     Options:
-        --mtls                   :     Start Server With MTLS Socket.
+        -h / --help              :     Show Help
+    
+    Server Options:
+        -T / --mtls              :     Start Server With MTLS Socket.
         -M / --meterpreter       :     Start Server With TLV Socket: Metasploit Payload & Reverse Shell Tools Support.
-        -S / --server-host       :     Server Host Address.
-        -w / --host              :     Server Flask Web GUI Host
-        -p / --port              :     Server Flask Web GUI Port
+        -S / --host              :     Server Listener Address & Web Panel Address.
+        -p / --port              :     Server Port & Flask Web GUI Port (If Use Web Gui)
+        -C / --cli-mode          :     CLI Interface Panel Mode
+        -G / --gui-mode          :     GUI Interface Panel Mode
+        -W / --web-mode          :     WEB Interface Panel Mode 
         
     Certificate Setup:
         -i / --init-certs        :     Initialize MTLS Certificate.

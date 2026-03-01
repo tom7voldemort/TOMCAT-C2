@@ -857,10 +857,13 @@ class MultiProtocolServer:
 
     def GetSessionStats(self):
         return {
+            "ServerAddress": self.Host,
+            "ServerPort": self.Port,
             "Total": len(self.Sessions),
             "TOMCAT": self.TomcatCount,
             "Meterpreter": self.MeterpreterCount,
             "ReverseShell": self.ReverseShellCount,
+            "ServerKey": (self.Crypto.GetKey().decode()),
         }
 
 

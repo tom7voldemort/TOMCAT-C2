@@ -541,3 +541,10 @@ class TOMCATC2SERVER:
     def GetAgent(self, AgentId):
         with self.Lock:
             return self.Agents.get(AgentId, None)
+
+    def GetSessionStat(self):
+        return {
+            "ServerAddress": self.Host,
+            "ServerPort": self.Port,
+            "ServerKey": (self.Crypto.GetKey().decode()),
+        }

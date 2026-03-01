@@ -340,8 +340,8 @@ def StartGUI(
             StrObject.Messages(f"INTERFACE: CLI MODE")
             CLI = TOMCATC2CLI()
             CLI.Run(
-                Host="0.0.0.0",
-                Port=4444,
+                Host=Host,
+                Port=Port,
                 UseMTLS=UseMTLS,
                 MeterpreterMode=MeterpreterMode,
             )
@@ -351,8 +351,8 @@ def StartGUI(
             StrObject.Messages(f"INTERFACE: TKINTER GUI")
             GUI = TOMCATC2GUI()
             GUI.Run(
-                Host="0.0.0.0",
-                Port=4444,
+                Host=Host,
+                Port=Port,
                 UseMTLS=UseMTLS,
                 MeterpreterMode=MeterpreterMode,
             )
@@ -376,20 +376,19 @@ def Main():
     )
     Parser.add_argument("-h", "--help", action="help")
     Parser.add_argument("-i", "--init-certs", action="store_true")
+    Parser.add_argument("-S", "--host", default="0.0.0.0")
+    Parser.add_argument("-p", "--port", type=int, default=5000)
+    Parser.add_argument("-T", "--mtls", action="store_true")
+    Parser.add_argument("-M", "--meterpreter", action="store_true")
+    Parser.add_argument("-ah", "--agent-host", default="0.0.0.0")
+    Parser.add_argument("-ap", "--agent-port", type=int, default=4444)
+    Parser.add_argument("-am", "--agent-mtls", action="store_true")
     Parser.add_argument("-a", "--gen-agent", metavar="ID")
     Parser.add_argument("-m", "--gen-multi-agent", action="store_true")
     Parser.add_argument("-c", "--gen-agent-count", type=int, default=10)
     Parser.add_argument("-u", "--gen-agent-prefix", default="agent")
     Parser.add_argument("-l", "--list-agents", action="store_true")
     Parser.add_argument("-r", "--revoke-agent", metavar="ID")
-    Parser.add_argument("-T", "--mtls", action="store_true")
-    Parser.add_argument("-M", "--meterpreter", action="store_true")
-    Parser.add_argument("-w", "--host", default="0.0.0.0")
-    Parser.add_argument("-p", "--port", type=int, default=5000)
-    Parser.add_argument("-S", "--server-host", default="0.0.0.0")
-    Parser.add_argument("-ah", "--agent-host", default="0.0.0.0")
-    Parser.add_argument("-ap", "--agent-port", type=int, default=4444)
-    Parser.add_argument("-am", "--agent-mtls", action="store_true")
     Parser.add_argument("-hc", "--hide-console", action="store_true")
     Parser.add_argument("-ps", "--persistence", action="store_true")
     Parser.add_argument("-W", "--web-mode", action="store_true", help="WEB Panel Mode.")
@@ -401,7 +400,7 @@ def Main():
         StrObject.Clear()
         TBanner.Logo()
         AUTHBanner.Logo()
-        InitCertificates(Args.server_host)
+        InitCertificates(Args.host)
     elif Args.gen_agent:
         StrObject.Clear()
         TBanner.Logo()
